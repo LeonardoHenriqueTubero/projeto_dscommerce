@@ -1,15 +1,15 @@
 package com.leonardo.dscommerce.entities;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
-
-    @ManyToMany()
-    @JoinTable(name = "tb_user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
 
     public User() {}
 
@@ -91,33 +85,6 @@ public class User implements UserDetails {
 
     public List<Order> getOrders() {
         return orders;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public boolean hasROle(String role) {
-        for (Role role1 : this.roles) {
-            if(role1.getAuthority().equals(role)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.leonardo.dscommerce.controllers;
 
 import com.leonardo.dscommerce.dto.ProductDTO;
+import com.leonardo.dscommerce.entities.Product;
+import com.leonardo.dscommerce.repositories.ProductRepository;
 import com.leonardo.dscommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
-        Page<ProductDTO> dtos = service.findAll(name, pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+        Page<ProductDTO> dtos = service.findAll(pageable);
         return ResponseEntity.ok(dtos);
     }
 
