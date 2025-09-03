@@ -1,8 +1,11 @@
 package com.leonardo.dscommerce.services;
 
+import com.leonardo.dscommerce.dto.CategoryDTO;
 import com.leonardo.dscommerce.dto.ProductDTO;
 import com.leonardo.dscommerce.dto.ProductMinDTO;
+import com.leonardo.dscommerce.entities.Category;
 import com.leonardo.dscommerce.entities.Product;
+import com.leonardo.dscommerce.repositories.CategoryRepository;
 import com.leonardo.dscommerce.repositories.ProductRepository;
 import com.leonardo.dscommerce.services.exceptions.DatabaseException;
 import com.leonardo.dscommerce.services.exceptions.ResourceNotFoundException;
@@ -21,10 +24,12 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository repository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductService(ProductRepository repository) {
+    public ProductService(ProductRepository repository, CategoryRepository categoryRepository) {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Transactional(readOnly = true)
@@ -78,5 +83,12 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        entity.getCategories().clear();
+        for(CategoryDTO categoryDTO : dto.getCategories()) {
+            Category cat = categoryRepository.getReferenceById(categoryDTO.getId());
+            cat.setId(categoryDTO.getId());
+            entity.getCategories().add(cat);
+        }
     }
 }
