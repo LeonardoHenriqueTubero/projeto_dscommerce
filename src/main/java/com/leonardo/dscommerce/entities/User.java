@@ -111,7 +111,7 @@ public class User implements UserDetails {
         this.roles.add(role);
     }
 
-    public boolean hasROle(String role) {
+    public boolean hasRole(String role) {
         for (Role role1 : this.roles) {
             if(role1.getAuthority().equals(role)) {
                 return true;
