@@ -18,18 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 public class ProductService {
 
     private final ProductRepository repository;
-    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductService(ProductRepository repository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository repository) {
         this.repository = repository;
-        this.categoryRepository = categoryRepository;
     }
 
     @Transactional(readOnly = true)
@@ -39,8 +35,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductMinDTO> findAll(Pageable pageable) {
-        Page<Product> result = repository.findAll(pageable);
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
+        Page<Product> result = repository.searchByName(name, pageable);
         return result.map(ProductMinDTO::new);
     }
 
@@ -86,7 +82,7 @@ public class ProductService {
 
         entity.getCategories().clear();
         for(CategoryDTO categoryDTO : dto.getCategories()) {
-            Category cat = categoryRepository.getReferenceById(categoryDTO.getId());
+            Category cat = new Category();
             cat.setId(categoryDTO.getId());
             entity.getCategories().add(cat);
         }

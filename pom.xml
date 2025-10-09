@@ -87,6 +87,8 @@
                         <exclude>com/leonardo/dscommerce/DscommerceApplication.class</exclude>
                         <exclude>com/leonardo/dscommerce/config/**</exclude>
                         <exclude>com/leonardo/dscommerce/entities/**</exclude>
+                        <exclude>com/leonardo/dscommerce/utils/**</exclude>
+                        <exclude>com/leonardo/dscommerce/controllers/**</exclude>
                         <exclude>com/leonardo/dscommerce/dto/**</exclude>
                         <exclude>com/leonardo/dscommerce/controllers/handlers/**</exclude>
                         <exclude>com/leonardo/dscommerce/services/exceptions/**</exclude>
